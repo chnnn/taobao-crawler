@@ -1,8 +1,15 @@
-import requests
+class WebAnalyzer:
+    cookieDict = ''
+    urls = []
+    def __init__(self, cookieDictIn, urlsIn):
+        self.cookieDict = cookieDictIn
+        self.urls = urlsIn
+        return
 
-def extractCookie():
-    # print(dir(aes))
-    # r = requests.get('https://www.google.com')
-    # print(r)
+    def handler(self):
+        '''
+        Return a list of String, each String is a csvRow.
+        '''
+        
+        return {}
 
-extractCookie()

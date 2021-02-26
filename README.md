@@ -15,6 +15,9 @@ A web crawler targeting Taobao(淘宝).
 5. copy the txt file to the `py` folder
 6. run `main.py`, the output will appear in the same folder
 
+
+# dependencies:
+- requests 2.25.1
 # bootstrap
 python3 -m venv .env
 ## macOS && Linux
