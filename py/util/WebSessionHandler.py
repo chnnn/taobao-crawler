@@ -1,5 +1,6 @@
 import requests
 import time
+from util.OutputHandler import OutputHandler
 # import random
 
 class WebSessionHandler:
@@ -28,6 +29,9 @@ class WebSessionHandler:
         '''
         res = self.currentSession.get(urlIn, cookies = self.currentSessionCookies)
         self.currentSessionCookies = res.cookies
+        print(res.cookies)
+        print(type(res.cookies))
+        # OutputHandler.modifyTheCookieFile(self.currentSessionCookies)
         return res.text
 
 

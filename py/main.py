@@ -1,17 +1,18 @@
 from util.InputHandler import InputHandler
 from util.WebAnalyzer import WebAnalyzer
 from util.WebSessionHandler import WebSessionHandler
-from config import urls
+from config import urls, cookieFileName
 
 def run():
-    inputHandler = InputHandler('tgt_cookies.txt')
+    inputHandler = InputHandler(cookieFileName)
     cookieDict = inputHandler.handler()
 
     webAnalyzer = WebAnalyzer(cookieDict, urls)
-    resultsStringArray = webAnalyzer.handler() 
+    resultsStrArray = webAnalyzer.handler() 
 
     webSessionHandler = WebSessionHandler(cookieDict, urls)
-    webSessionHandler.handler()
+    resPagesHTMLStrArray = webSessionHandler.handler()
+    # print(resPagesHTMLStrArray)
 
 run()
 
