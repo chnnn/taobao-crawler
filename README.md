@@ -1,9 +1,19 @@
 # taobao-crawler
 A web crawler targeting Taobao(淘宝). 
+
 # features, or what it does:
 1. Fetch items-info from specified shops.
 2. Parse the result, group by "shop", order by "selling volume".
 3. Write the result to file.
+
+# usage:
+1. open and login to taobao.com
+2. open the javascript console window (press F12 in chrome)
+3. copy the content of `node/cookieExtractor.js` to the window, press Enter key.
+4. a txt file shall be downloaded. Allow the download if any user confirmation is necessary.
+
+5. copy the txt file to the `py` folder
+6. run `main.py`, the output will appear in the same folder
 
 # bootstrap
 python3 -m venv .env
