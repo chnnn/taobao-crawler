@@ -12,3 +12,16 @@ class Helper:
             padding = '0'
 
         return padding + str(inputRaw)
+    
+    @staticmethod
+    def appendSearchParamToURLs(urlsIn, extraParamStr):
+        '''
+        append search strings to urls
+        urlsIn = ['https://abc.com/page']
+        urlsOut = ['https://abc.com/page&search=y&orderType=hotsell_desc']
+        '''
+        urlOut = []
+        for url in urlsIn:
+            s = url + extraParamStr
+            urlOut.append(s)
+        return urlOut

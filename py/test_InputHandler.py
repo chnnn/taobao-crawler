@@ -1,6 +1,6 @@
 import unittest
 import json
-from .config import TEST_COOKIE_FILE_ABS_PATH
+from .Config import TEST_COOKIE_FILE_ABS_PATH
 from .InputHandler import InputHandler
 
 class TestInputHandler(unittest.TestCase):

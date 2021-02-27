@@ -1,6 +1,8 @@
 import requests
 import time
 from .OutputHandler import OutputHandler
+from .Config import PAGE_OUT_ABS_PATH_BASE, PAGE_OUT_SUFFIX, REQUESTS_DELAY_IN_SEC
+from .Helper import Helper
 # import random
 
 class WebSessionHandler:
@@ -26,15 +28,18 @@ class WebSessionHandler:
         get the content of the urls.
         Return the *byte content* of the corresponding pages as array.
         '''
-        resHTMLPages = []
-        for url in self.urls:
-            resHTMLPages.append(self.__singleRequestHandler(url))
-            # time.sleep(8)
-        return resHTMLPages
+        resPagesByteContent = []
+        for index, url in enumerate(self.urls):
+            resBytePageContent = self.__singleRequestHandler(url)
+            fileName = PAGE_OUT_ABS_PATH_BASE + Helper.padding2(index) + PAGE_OUT_SUFFIX
+            OutputHandler.writeFile(resBytePageContent, fileName)
+            resPagesByteContent.append(resBytePageContent)
+            time.sleep(REQUESTS_DELAY_IN_SEC)
+        return resPagesByteContent
 
     def __singleRequestHandler(self, urlIn):
         '''
-        handle a url, return text.
+        handle a url, return byte content.
         the cookie will be managed by the session. Latest cookie will be updated to the same file.
         type(res.cookies) == <class 'requests.cookies.RequestsCookieJar'>
         '''
