@@ -11,9 +11,9 @@ class TestInputHandler(unittest.TestCase):
         cookiesDictIn = InputHandler.readStringifiedCookie(TEST_COOKIE_FILE_ABS_PATH)
         urlsIn = ['https://stackoverflow.com/questions/']
         webSessionHandler = WebSessionHandler(cookiesDictIn, urlsIn, TEST_COOKIE_FILE_OUT_ABS_PATH)
-        resHTMLPages = webSessionHandler.handler()
-        testPage = resHTMLPages[0]
-        OutputHandler.writeFile(testPage.encode('utf-8'), TEST_PAGE_OUT_ABS_PATH)
+        resHTMLPagesByteArr = webSessionHandler.handler()
+        testPageByte = resHTMLPagesByteArr[0]
+        OutputHandler.writeFile(testPageByte, TEST_PAGE_OUT_ABS_PATH)
 
         # self.
         return

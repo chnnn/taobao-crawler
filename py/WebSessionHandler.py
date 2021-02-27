@@ -24,7 +24,7 @@ class WebSessionHandler:
     def handler(self):
         '''
         get the content of the urls.
-        Return the corresponding pages as array.
+        Return the *byte content* of the corresponding pages as array.
         '''
         resHTMLPages = []
         for url in self.urls:
@@ -35,12 +35,14 @@ class WebSessionHandler:
     def __singleRequestHandler(self, urlIn):
         '''
         handle a url, return text.
+        the cookie will be managed by the session. Latest cookie will be updated to the same file.
         type(res.cookies) == <class 'requests.cookies.RequestsCookieJar'>
         '''
         res = self.currentSession.get(urlIn)
         cookieDictOut = {"domain":self.domain, "cookies": self.currentSession.cookies.get_dict()}
         OutputHandler.writeCookiesOut(cookieDictOut, self.cookieOutABSPath)
-        return res.text
+        # (res.content).decode('utf-8') == res.text
+        return res.content
 
 
 userAgentList = [
