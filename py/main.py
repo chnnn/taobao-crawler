@@ -1,17 +1,17 @@
-from .util.InputHandler import InputHandler
-from .util.WebAnalyzer import WebAnalyzer
-from .util.WebSessionHandler import WebSessionHandler
-from .config import urls, cookieFileName
+from .InputHandler import InputHandler
+from .WebAnalyzer import WebAnalyzer
+from .WebSessionHandler import WebSessionHandler
+from .config import urls, COOKIE_FILE_ABS_PATH
 
 def run():
-    inputHandler = InputHandler(cookieFileName)
-    cookieDict = inputHandler.handler()
-
-    webAnalyzer = WebAnalyzer(cookieDict, urls)
-    resultsStrArray = webAnalyzer.handler() 
-
+    # inputHandler = InputHandler(COOKIE_FILE_ABS_PATH)
+    cookieDict = InputHandler.readStringifiedCookie(COOKIE_FILE_ABS_PATH)
     webSessionHandler = WebSessionHandler(cookieDict, urls)
     resPagesHTMLStrArray = webSessionHandler.handler()
+
+    # webAnalyzer = WebAnalyzer(cookieDict, urls)
+    # resultsStrArray = webAnalyzer.handler() 
+
     # print(resPagesHTMLStrArray)
 
 run()

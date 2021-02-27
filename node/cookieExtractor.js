@@ -3,6 +3,17 @@
  * Usage: copy & paste the following script to the console of an open browser window to run.
  */
 
+/**
+ * Get the Domain name of the current page(domain name of the cookie)
+ * window.location.hostname === www.abc.example.com
+ * returns: 'example.com'
+ */
+function getDomainName(hostName)
+{
+    return hostName.substring(hostName.lastIndexOf(".", hostName.lastIndexOf(".") - 1) + 1);
+}
+let dm = getDomainName(window.location.hostname)
+
 /** Get the cookies */
 function getCookies() {
   const cookiesRaw = document.cookie.split(";");
@@ -32,6 +43,7 @@ function autoDownloadToTXT(stringToDownload) {
   a.href = data
   a.click()
 }
+let strToDownload = dm + '\n' + cookieObjStringified
 
-autoDownloadToTXT(cookieObjStringified)
+autoDownloadToTXT(strToDownload)
 

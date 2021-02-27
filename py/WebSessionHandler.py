@@ -5,10 +5,10 @@ from .OutputHandler import OutputHandler
 
 class WebSessionHandler:
     currentSession = requests.Session()
-    currentSessionCookies = {}
     urls = []
     def __init__(self, cookieDictIn, urlsIn):
-        self.sessionCookies = cookieDictIn
+        # FIXME use the cookieDictIn to set the init cookies
+        self.currentSession.cookies.set('name', 'val', domain='dm')
         self.urls = urlsIn
         return
 
@@ -19,18 +19,18 @@ class WebSessionHandler:
         '''
         resHTMLPages = []
         for url in self.urls:
-            resHTMLPages.append(self.singleRequestHandler(url, self.currentSessionCookies))
+            resHTMLPages.append(self.__singleRequestHandler(url))
             # time.sleep(8)
         return resHTMLPages
 
-    def singleRequestHandler(self, urlIn, cookieDictIn):
+    def __singleRequestHandler(self, urlIn):
         '''
         handle a url, return text.
         '''
-        res = self.currentSession.get(urlIn, cookies = self.currentSessionCookies)
-        self.currentSessionCookies = res.cookies
-        print(res.cookies)
+        res = self.currentSession.get(urlIn)
         print(type(res.cookies))
+        print('32, get_dict:')
+        print(self.currentSession.cookies.get_dict())
         # OutputHandler.modifyTheCookieFile(self.currentSessionCookies)
         return res.text
 

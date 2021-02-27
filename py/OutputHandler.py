@@ -1,6 +1,6 @@
 
 import json
-from ..config import cookieFileName
+from .config import COOKIE_FILE_ABS_PATH
 class OutputHandler:
     fileName = ''
     def __init__(self, fileNameIn):
@@ -21,7 +21,7 @@ class OutputHandler:
         Then update the original cookie file.
         '''
         byteData = json.dumps(currentCookies).encode('utf-8')
-        OutputHandler.writeFile(byteData, cookieFileName)
+        OutputHandler.writeFile(byteData, COOKIE_FILE_ABS_PATH)
         return
     
     @staticmethod
