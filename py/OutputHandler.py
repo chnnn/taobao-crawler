@@ -17,7 +17,7 @@ class OutputHandler:
         '''
         Complete overwrite the content of the file.
         '''
-        with open(fileNameIn, 'rb+') as f:
+        with open(fileNameIn, 'wb+') as f:
             content = f.read()
             f.seek(0)
             f.write(byteData)

@@ -9,5 +9,10 @@ class InputHandler:
         with open(fileNameIn, 'rb+') as f:
             domain = f.readline().strip()
             content = f.read()
-            cookieDict = { "domain": domain, "cookies": json.loads(content)}
+            contentJSON = {}
+            try:
+                contentJSON = json.loads(content)
+            except:
+                pass
+            cookieDict = { "domain": domain, "cookies": contentJSON}
         return cookieDict

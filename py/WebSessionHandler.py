@@ -9,13 +9,16 @@ class WebSessionHandler:
     cookieOutABSPath = ''
     domain = b''
     def __init__(self, cookieDictIn, urlsIn, cookieDictOutABSPath):
-        # use the cookieDictIn to set the init cookies
+        self.urls = urlsIn
+        self.cookieOutABSPath = cookieDictOutABSPath
+        if cookieDictIn['cookies'] is None:
+            return
+        if cookieDictIn['domain'] is None:
+            self.domain = b''
         self.domain = cookieDictIn['domain']
         cookiesIn = cookieDictIn['cookies']
         for cookieName, cookieVal in cookiesIn.items():
             self.currentSession.cookies.set(cookieName, cookieVal, domain=self.domain.decode('utf-8'))
-        self.urls = urlsIn
-        self.cookieOutABSPath = cookieDictOutABSPath
         return
 
     def handler(self):
