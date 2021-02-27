@@ -7,14 +7,13 @@ class WebSessionHandler:
     currentSession = requests.Session()
     urls = []
     cookieOutABSPath = ''
+    domain = b''
     def __init__(self, cookieDictIn, urlsIn, cookieDictOutABSPath):
         # use the cookieDictIn to set the init cookies
-        dm = cookieDictIn['domain'].decode('utf-8')
+        self.domain = cookieDictIn['domain']
         cookiesIn = cookieDictIn['cookies']
         for cookieName, cookieVal in cookiesIn.items():
-            print('name:' + cookieName)
-            print('val:' + cookieVal)
-            self.currentSession.cookies.set(cookieName, cookieVal, domain=dm)
+            self.currentSession.cookies.set(cookieName, cookieVal, domain=self.domain.decode('utf-8'))
         self.urls = urlsIn
         self.cookieOutABSPath = cookieDictOutABSPath
         return
@@ -36,8 +35,8 @@ class WebSessionHandler:
         type(res.cookies) == <class 'requests.cookies.RequestsCookieJar'>
         '''
         res = self.currentSession.get(urlIn)
-        cookieDictOut = self.currentSession.cookies.get_dict()
-        OutputHandler.writeCookiesDictOut(cookieDictOut, self.cookieOutABSPath)
+        cookieDictOut = {"domain":self.domain, "cookies": self.currentSession.cookies.get_dict()}
+        OutputHandler.writeCookiesOut(cookieDictOut, self.cookieOutABSPath)
         return res.text
 
 

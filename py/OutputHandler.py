@@ -2,12 +2,13 @@
 import json
 class OutputHandler:
     @staticmethod
-    def writeCookiesDictOut(cookiesDictIn, filePathIn):
+    def writeCookiesOut(cookiesDictIn, filePathIn):
         '''
         Parse the currentCookies to JSON.stringify() string.
         Then update the original cookie file.
         '''
-        byteData = json.dumps(cookiesDictIn).encode('utf-8')
+        dmBytes = cookiesDictIn['domain'] + b'\n'
+        byteData = dmBytes + json.dumps(cookiesDictIn['cookies']).encode('utf-8')
         OutputHandler.writeFile(byteData, filePathIn)
         return
     
