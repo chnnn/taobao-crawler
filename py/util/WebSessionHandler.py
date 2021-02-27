@@ -1,6 +1,6 @@
 import requests
 import time
-from util.OutputHandler import OutputHandler
+from .OutputHandler import OutputHandler
 # import random
 
 class WebSessionHandler:

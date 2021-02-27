@@ -1,6 +1,6 @@
 
 import json
-from config import cookieFileName
+from ..config import cookieFileName
 class OutputHandler:
     fileName = ''
     def __init__(self, fileNameIn):
