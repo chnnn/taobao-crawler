@@ -1,8 +1,9 @@
 import unittest
 import json
-from .config import TEST_COOKIE_FILE_ABS_PATH, TEST_COOKIE_FILE_OUT_ABS_PATH
+from .config import TEST_COOKIE_FILE_ABS_PATH, TEST_COOKIE_FILE_OUT_ABS_PATH, TEST_PAGE_OUT_ABS_PATH
 from .WebSessionHandler import WebSessionHandler
 from .InputHandler import InputHandler
+from .OutputHandler import OutputHandler
 
 class TestInputHandler(unittest.TestCase):
     def testSingleRequest(self):
@@ -11,6 +12,8 @@ class TestInputHandler(unittest.TestCase):
         urlsIn = ['https://stackoverflow.com/questions/']
         webSessionHandler = WebSessionHandler(cookiesDictIn, urlsIn, TEST_COOKIE_FILE_OUT_ABS_PATH)
         resHTMLPages = webSessionHandler.handler()
-        print(resHTMLPages)
+        testPage = resHTMLPages[0]
+        OutputHandler.writeFile(testPage.encode('utf-8'), TEST_PAGE_OUT_ABS_PATH)
+
         # self.
         return
