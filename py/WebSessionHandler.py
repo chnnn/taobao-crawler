@@ -6,10 +6,17 @@ from .OutputHandler import OutputHandler
 class WebSessionHandler:
     currentSession = requests.Session()
     urls = []
-    def __init__(self, cookieDictIn, urlsIn):
-        # FIXME use the cookieDictIn to set the init cookies
-        self.currentSession.cookies.set('name', 'val', domain='dm')
+    cookieOutABSPath = ''
+    def __init__(self, cookieDictIn, urlsIn, cookieDictOutABSPath):
+        # use the cookieDictIn to set the init cookies
+        dm = cookieDictIn['domain'].decode('utf-8')
+        cookiesIn = cookieDictIn['cookies']
+        for cookieName, cookieVal in cookiesIn.items():
+            print('name:' + cookieName)
+            print('val:' + cookieVal)
+            self.currentSession.cookies.set(cookieName, cookieVal, domain=dm)
         self.urls = urlsIn
+        self.cookieOutABSPath = cookieDictOutABSPath
         return
 
     def handler(self):
@@ -26,12 +33,11 @@ class WebSessionHandler:
     def __singleRequestHandler(self, urlIn):
         '''
         handle a url, return text.
+        type(res.cookies) == <class 'requests.cookies.RequestsCookieJar'>
         '''
         res = self.currentSession.get(urlIn)
-        print(type(res.cookies))
-        print('32, get_dict:')
-        print(self.currentSession.cookies.get_dict())
-        # OutputHandler.modifyTheCookieFile(self.currentSessionCookies)
+        cookieDictOut = self.currentSession.cookies.get_dict()
+        OutputHandler.writeCookiesDictOut(cookieDictOut, self.cookieOutABSPath)
         return res.text
 
 

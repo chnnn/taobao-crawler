@@ -7,4 +7,6 @@ cookieFileInPyFolder = 'tgt_cookies.txt'
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 CONFIG_ABS_PATH = os.path.join(ROOT_DIR, 'configuration.py')
 COOKIE_FILE_ABS_PATH = os.path.join(ROOT_DIR, cookieFileInPyFolder)
+COOKIE_FILE_OUT_ABS_PATH = COOKIE_FILE_ABS_PATH
 TEST_COOKIE_FILE_ABS_PATH = os.path.join(ROOT_DIR, 'test_' + cookieFileInPyFolder)
+TEST_COOKIE_FILE_OUT_ABS_PATH = TEST_COOKIE_FILE_ABS_PATH + '.out'
