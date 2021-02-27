@@ -4,4 +4,6 @@ __pycache__/
 tgt_cookies.txt
 test_page.html
 test_page_bk.html
+temp_page_*.*
 test_tgt_cookies.txt
+out/
