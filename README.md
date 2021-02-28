@@ -17,7 +17,9 @@ A web crawler targeting Taobao(淘宝).
 
 
 # dependencies:
-- requests 2.25.1
+- python 3.8+
+- pip install requests
+- pip install pyppeteer
 # bootstrap
 python3 -m venv .env
 ## macOS && Linux
