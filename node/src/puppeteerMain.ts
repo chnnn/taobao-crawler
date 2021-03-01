@@ -2,7 +2,7 @@ import * as puppeteer from 'puppeteer'
 
 type Page = puppeteer.Page
 export default async function puppetHandler() {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({headless: false});
   const page: Page = await browser.newPage();
   insertCookiesFromFile()
   browse(page)

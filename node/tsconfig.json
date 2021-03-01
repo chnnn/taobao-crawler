@@ -1,30 +1,33 @@
 {
     "compilerOptions": {
         "target": "ES2018",
-        "module": "commonjs",
+        "module": "CommonJS",
         "sourceMap": true,
         "lib": [
             "es2020"
         ],
         "allowJs": true,
-    },
-    "declaration": false,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "outDir": "./dist",
-    "esModuleInterop": true,
-    "tyteRoots": [
-        "./node_modules/@types"
-    ],
-    "paths": {
-        "@/*": [
-            "./*"
-        ]
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "./*",
+            ],
+        },
+        "typeRoots": [
+            "./node_modules/@types"
+        ],
+        "outDir": "./tsCompile",
+        "alwaysStrict": true,
+        "noImplicitThis": true,
+        "esModuleInterop": true,
+        "declaration": false,
     },
     "exclude": [
         "cookieExtractor.js",
         "node_modules",
         "dist",
-        "webpack.config.js"
+        "tsCompile",
+        "webpack.config.js",
+        "tools"
     ]
 }
