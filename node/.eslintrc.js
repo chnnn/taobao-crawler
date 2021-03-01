@@ -4,6 +4,9 @@ module.exports = {
         commonjs: true,
         es2021: true,
     },
+    parserOptions: {
+        "sourceType": "module",
+    },
     extends: [
         'eslint:recommended',
     ],
