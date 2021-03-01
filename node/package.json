@@ -9,6 +9,7 @@
   "author": "schen",
   "license": "GPL-2.0-only",
   "dependencies": {
+    "eslint": "^7.21.0",
     "puppeteer": "^8.0.0"
   }
 }
