@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "target": "ES2018",
+        "module": "commonjs",
+        "sourceMap": true,
+        "lib": [
+            "es2020"
+        ],
+        "allowJs": true,
+    },
+    "declaration": false,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "tyteRoots": [
+        "./node_modules/@types"
+    ],
+    "paths": {
+        "@/*": [
+            "./*"
+        ]
+    },
+    "exclude": [
+        "cookieExtractor.js",
+        "node_modules",
+        "dist",
+        "webpack.config.js"
+    ]
+}
