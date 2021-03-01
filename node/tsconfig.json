@@ -4,7 +4,8 @@
         "module": "CommonJS",
         "sourceMap": true,
         "lib": [
-            "es2020"
+            "ES2020",
+            "DOM",
         ],
         "allowJs": true,
         "baseUrl": ".",
