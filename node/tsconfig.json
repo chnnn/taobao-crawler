@@ -29,6 +29,7 @@
         "dist",
         "tsCompile",
         "webpack.config.js",
+        "jest.config.js",
         "tools"
-    ]
+    ],
 }

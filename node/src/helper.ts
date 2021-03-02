@@ -57,5 +57,4 @@ export const fetchImgToBlob = async (url: string) => {
     const res = await fetch(url)
     const blobDataArrBuffer = new Uint16Array(await (await res.blob()).arrayBuffer())
     fs.writeFileSync('testOut', blobDataArrBuffer)
-
 }
