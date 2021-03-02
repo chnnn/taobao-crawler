@@ -1,5 +1,6 @@
 //TODO read file
 import puppeteer from 'puppeteer'
+import fs from 'fs'
 
 const path: string = ''
 type Page = puppeteer.Page
@@ -48,5 +49,13 @@ export const scrollToSelector = async (page: Page, querySelector: string) => {
     await page.evaluate(async () => {
         document.querySelector(querySelector).scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'end' })
     })
+
+}
+
+/** TODO eval in page or fetch directly? */
+export const fetchImgToBlob = async (url: string) => {
+    const res = await fetch(url)
+    const blobDataArrBuffer = new Uint16Array(await (await res.blob()).arrayBuffer())
+    fs.writeFileSync('testOut', blobDataArrBuffer)
 
 }
