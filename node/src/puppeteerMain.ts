@@ -24,7 +24,10 @@ const browse = async (page: Page) => {
 
   await autoScrollToBottom(page)
 
+  //TODO to item
   await scrollToSelector(page, '')
+  //TODO document.querySelectorAll(selector) loop
+  
 
   const cookiesObj = readJSONFileToObj()
   for (const [name, val] of Object.entries(cookiesObj.cookies)) {
