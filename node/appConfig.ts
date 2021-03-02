@@ -16,3 +16,5 @@ export const SELECTORS_SUB = {
     /** (.textContent = '评价: 2') */
     itemRating: 'dd.rates a',
 }
+
+export const DIR_OUT = 'out'

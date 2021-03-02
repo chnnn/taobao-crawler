@@ -1,6 +1,9 @@
 //TODO read file
 import puppeteer from 'puppeteer'
 import fs from 'fs'
+import fetch from 'node-fetch'
+import { sep } from 'path'
+import { DIR_OUT } from '@/appConfig'
 
 const path: string = ''
 type Page = puppeteer.Page
@@ -52,9 +55,17 @@ export const scrollToSelector = async (page: Page, querySelector: string) => {
 
 }
 
-/** TODO eval in page or fetch directly? */
-export const fetchImgToBlob = async (url: string) => {
+/**
+ * TODO eval in page or fetch directly?
+ * @param suffix '.png', '.jpg', check the tail of the url.
+ */
+export const fetchImgToFile = async (url: string, fileName: string, suffix: string) => {
     const res = await fetch(url)
-    const blobDataArrBuffer = new Uint16Array(await (await res.blob()).arrayBuffer())
-    fs.writeFileSync('testOut', blobDataArrBuffer)
+    const blobDataArrBuffer = new Uint16Array(await res.arrayBuffer())
+    fs.writeFileSync(DIR_OUT + sep + fileName + suffix, blobDataArrBuffer)
 }
+
+// TODO
+const createDirIfNotExist = (dir: string) => { }
+
+const cleanDir = (dir: string) => { }
