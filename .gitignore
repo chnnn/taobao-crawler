@@ -1,10 +1,10 @@
 .vscode/
-.env/
-__pycache__/
+node_modules/
+dist/
+tsCompile/
+in/**/*
 out/
+
 tgt_cookies.txt
-test_page.html
-test_page_bk.html
-temp_page_*.*
 test_tgt_cookies.txt
 example.png

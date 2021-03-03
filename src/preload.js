@@ -12,3 +12,11 @@ Object.defineProperty(navigator, 'plugins', {
         return [1, 2, 3, 4, 5];
     },
 });
+
+Object.defineProperty(navigator, 'webdrive', {
+    get: function () {
+        return false;
+    },
+});
+
+delete navigator.__proto__.webdriver

@@ -1,3 +1,4 @@
+// import puppeteer from 'puppeteer'
 import puppeteer from 'puppeteer-extra'
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 import { Page } from 'puppeteer'
@@ -28,10 +29,6 @@ export default async function puppetHandler() {
   const browser = await puppeteer.launch({ headless: false } as any);
   const page: Page = await browser.newPage();
 
-  await page.evaluate(() => {
-    Object.defineProperty(navigator, 'webdriver', { get: () => false })
-  })
-
   // preload(page)
   await page.goto('https://login.taobao.com/', {
     waitUntil: 'networkidle2'
@@ -41,13 +38,13 @@ export default async function puppetHandler() {
   const urlsToBrowse = parseURLs(URLS, URL_EXTRA_PARAM)
   const browseResultArr: BrowseResult[] = []
   urlsToBrowse.forEach(async (url, index) => {
-    if(index > 0) {
+    if (index > 0) {
       /** 15s */
       sleep(15000)
     }
     const itemsInfo = await browse(page, url)
     browseResultArr.push(itemsInfo)
-  } )
+  })
   writeJSONArrToFile(browseResultArr, 'data', '.txt')
 
 }
@@ -65,11 +62,17 @@ const cookiesSetup = async (page: Page) => {
 }
 
 const browse = async (page: Page, url: string): Promise<BrowseResult> => {
-  /** GOTO category page */
-  await page.goto(url, {
-    waitUntil: 'networkidle2',
-    timeout: 0,
-  });
+  try {
+    /** GOTO category page */
+    await page.goto(url, {
+      waitUntil: 'networkidle2',
+      timeout: 0,
+    });
+
+  } catch (err) {
+    console.error(err)
+    throw err
+  }
   // /** avoid detection */
   // page.on("request", r => {
   //   if (
