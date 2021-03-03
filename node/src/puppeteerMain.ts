@@ -1,8 +1,11 @@
-import puppeteer from 'puppeteer'
+import puppeteer from 'puppeteer-extra'
+import StealthPlugin from 'puppeteer-extra-plugin-stealth'
+import { Page } from 'puppeteer'
 import { readCookiesFileToObj, autoScrollToBottom, scrollToSelector, parseURLs, fetchImgBinary, FetchImgBinaryData, fetchImgToFile, writeJSONArrToFile, sleep } from '@/src/helper'
 import { SELECTORS_PRIME, SELECTORS_SUB, COOKIES_FILE_ABS, URLS, URL_EXTRA_PARAM, SELECTORS_MISC, USER_AGENT_LIST, PROJ_ROOT_ABS } from '@/appConfig'
 import fs from 'fs'
 import path from 'path'
+puppeteer.use(StealthPlugin())
 
 type ItemInfo = {
   /** 180x180 pic */
@@ -18,21 +21,25 @@ type ItemInfo = {
   itemRating: string
 }
 export type BrowseResult = { shopName: string, shopURL: string, itemsInfo: ItemInfo[] }
-type Page = puppeteer.Page
 const ERRSTR = 'error'
 export default async function puppetHandler() {
   // const browser = await puppeteer.launch({headless: false, executablePath: '/usr/bin/chromium'});
   // const browser = await puppeteer.launch({headless: false, executablePath: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'});
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: false } as any);
   const page: Page = await browser.newPage();
 
   await page.evaluate(() => {
     Object.defineProperty(navigator, 'webdriver', { get: () => false })
   })
-  await preload(page)
+  // await preload(page)
+  const preloadJsAbs = path.resolve(PROJ_ROOT_ABS, 'src' + path.sep + 'preload.js')
+  const preloadFile = fs.readFileSync(preloadJsAbs, 'utf8');
+  console.log(preloadFile)
+  await page.evaluateOnNewDocument(preloadFile);
   page.setUserAgent(USER_AGENT_LIST[1])
   await page.goto('https://login.taobao.com/', {
     waitUntil: 'networkidle2'
+
   })
   await sleep(30000)
   // await cookiesSetup(page)

@@ -30,9 +30,10 @@ export const DIR_OUT_ABS = path.resolve(PROJ_ROOT_ABS, 'out')
 export const COOKIES_FILE_ABS = path.resolve(PROJ_ROOT_ABS, 'in' + path.sep + 'tgt_cookies.txt')
 
 export const URLS = [
-    'https://lamy.tmall.com/?spm=a1z10.3-b-s.1997427721.d4918089.6ed95766UVMmEq'
+    // 'https://lamy.tmall.com/',
+    'https://lianxinbg.tmall.com/'
 ]
-export const URL_EXTRA_PARAM = '&search=y&orderType=hotsell_desc'
+export const URL_EXTRA_PARAM = 'search.htm?'
 
 
 export const USER_AGENT_LIST = [
