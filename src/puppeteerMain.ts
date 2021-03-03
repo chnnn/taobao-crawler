@@ -48,18 +48,18 @@ export default async function puppetHandler() {
   writeJSONArrToFile(browseResultArr, 'data', '.txt')
 
 }
-const preload = async (page: Page) => {
-  const preloadJsAbs = path.resolve(PROJ_ROOT_ABS, 'src/preload.js')
-  const preloadFile = fs.readFileSync(preloadJsAbs, 'utf8');
-  await page.evaluateOnNewDocument(preloadFile);
-}
+// const preload = async (page: Page) => {
+//   const preloadJsAbs = path.resolve(PROJ_ROOT_ABS, 'src/preload.js')
+//   const preloadFile = fs.readFileSync(preloadJsAbs, 'utf8');
+//   await page.evaluateOnNewDocument(preloadFile);
+// }
 
-const cookiesSetup = async (page: Page) => {
-  const cookiesObj = readCookiesFileToObj(COOKIES_FILE_ABS)
-  for (const [name, val] of Object.entries(cookiesObj.cookies)) {
-    await page.setCookie({ name: name, value: val, domain: cookiesObj.domain })
-  }
-}
+// const cookiesSetup = async (page: Page) => {
+//   const cookiesObj = readCookiesFileToObj(COOKIES_FILE_ABS)
+//   for (const [name, val] of Object.entries(cookiesObj.cookies)) {
+//     await page.setCookie({ name: name, value: val, domain: cookiesObj.domain })
+//   }
+// }
 
 const browse = async (page: Page, url: string): Promise<BrowseResult> => {
   try {
@@ -73,16 +73,6 @@ const browse = async (page: Page, url: string): Promise<BrowseResult> => {
     console.error(err)
     throw err
   }
-  // /** avoid detection */
-  // page.on("request", r => {
-  //   if (
-  //     ["image", "stylesheet", "font", "script"].indexOf(r.resourceType()) !== -1
-  //   ) {
-  //     r.abort();
-  //   } else {
-  //     r.continue();
-  //   }
-  // });
 
   // await page.setViewport({
   //   width: 1800,
