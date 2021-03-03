@@ -15,15 +15,7 @@ export type CookiesObj = {
         [key: string]: string
     }
 }
-// TODO
-export const readJSONFileToObj = (): CookiesObj => {
-    return {
-        domain: 'taobao.com',
-        cookies: {
 
-        }
-    }
-}
 /**
  * AutoScroll to the bottom of page.
  * to handle lazy load.
@@ -68,6 +60,13 @@ export const fetchImgToFile = async (url: string, fileName: string, suffix: stri
     fs.writeFileSync(dirOutAbs + sep + fileName + suffix, blobDataArrBuffer)
 }
 
+export type FetchImgBinaryData =  {url: string, arrBuffer: Uint16Array}
+export const fetchImgBinary = async (url: string): Promise<FetchImgBinaryData> => {
+    const res = await fetch(url)
+    const blobDataArrBuffer = new Uint16Array(await res.arrayBuffer())
+    return { url: url, arrBuffer: blobDataArrBuffer }
+}
+
 export const createDirIfNotExist = (dir: string) => {
     if (!fs.existsSync(dir)) {
         mkdirp.sync(dir)
@@ -75,7 +74,7 @@ export const createDirIfNotExist = (dir: string) => {
 }
 
 /** rm -rf dirAbs */
-export const cleanDir = (dirAbs: string) => { 
+export const cleanDir = (dirAbs: string) => {
     if (!dirAbs.includes(sep)) {
         console.error('Cautious. Wrong usage of cleanDir, must use ABS path.')
     }
@@ -85,5 +84,18 @@ export const cleanDir = (dirAbs: string) => {
     }
     rimraf.sync(dirAbs)
     mkdirp.sync(dirAbs)
-    return 
- }
+    return
+}
+
+export const readCookiesFileToObj = (filePath: string): { domain: string, cookies: { [key: string]: string } } => {
+    const data = fs.readFileSync(filePath, 'utf-8').split('\n')
+    const domain = data[0]
+    const cookies = JSON.parse(data[1])
+    return { domain: domain, cookies: cookies }
+}
+
+export const parseURLs = (urls: string[], extraParam: string): string[] => {
+    const parsedURLs: string[] = []
+    urls.forEach(e => parsedURLs.push(e + (extraParam || '')))
+    return parsedURLs
+}

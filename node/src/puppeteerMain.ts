@@ -1,10 +1,11 @@
 import puppeteer from 'puppeteer'
-import { readJSONFileToObj, autoScrollToBottom, scrollToSelector } from '@/src/helper'
-import { SELECTORS_PRIME, SELECTORS_SUB } from '@/appConfig'
+import { readCookiesFileToObj, autoScrollToBottom, scrollToSelector, parseURLs, fetchImgBinary, FetchImgBinaryData } from '@/src/helper'
+import { SELECTORS_PRIME, SELECTORS_SUB, COOKIES_FILE_ABS, URLS, URL_EXTRA_PARAM, SELECTORS_MISC } from '@/appConfig'
 
 type ItemInfo = {
   /** 180x180 pic */
   itemPicUrl: string
+  itemPicArrayBuffer?: FetchImgBinaryData,
   itemName: string
   itemLink: string
   /** price in CNY '8.00' */
@@ -14,6 +15,7 @@ type ItemInfo = {
   /** '评价: 2' */
   itemRating: string
 }
+type BrowseResult = { shopName: string, shopURL: string, itemsInfo: ItemInfo[] }
 type Page = puppeteer.Page
 const ERRSTR = 'error'
 export default async function puppetHandler() {
@@ -21,13 +23,19 @@ export default async function puppetHandler() {
   const browser = await puppeteer.launch({ headless: false });
   const page: Page = await browser.newPage();
   await cookiesSetup(page)
-  await browse(page)
+  const urlsToBrowse = parseURLs(URLS, URL_EXTRA_PARAM)
+  const browseResultArr: BrowseResult[] = []
+  for (const url of urlsToBrowse) {
+    const itemsInfo = await browse(page, url)
+  }
+
   // TODO close browser
 }
+
 const cookiesSetup = async (page: Page) => {
-  const cookiesObj = readJSONFileToObj()
+  const cookiesObj = readCookiesFileToObj(COOKIES_FILE_ABS)
   for (const [name, val] of Object.entries(cookiesObj.cookies)) {
-    await page.setCookie({ name: name, value: val })
+    await page.setCookie({ name: name, value: val, domain: cookiesObj.domain })
   }
 
   await page.waitForNavigation({
@@ -35,8 +43,8 @@ const cookiesSetup = async (page: Page) => {
   })
 }
 
-const browse = async (page: Page) => {
-  await page.goto('https://example.com', {
+const browse = async (page: Page, url: string): Promise<BrowseResult> => {
+  await page.goto(url, {
     // waitUntil:'networkidle0'
     waitUntil: 'networkidle2'
   });
@@ -50,7 +58,9 @@ const browse = async (page: Page) => {
   await autoScrollToBottom(page)
 
   await scrollToSelector(page, SELECTORS_PRIME.item)
-  const shopName = 's01'
+  const shopNameSelect = document.querySelector(SELECTORS_MISC.shopName)
+  const shopName = shopNameSelect ? shopNameSelect.textContent : ERRSTR
+
   await page.screenshot({ path: `${shopName}_Result.png` })
 
   const items = document.querySelectorAll(SELECTORS_PRIME.item)
@@ -73,8 +83,10 @@ const browse = async (page: Page) => {
     const rating = ratingSelect ? ratingSelect.textContent : ERRSTR
     const salesVolumeSelect = item.querySelector(SELECTORS_SUB.itemSalesVolume)
     const salesVolume = salesVolumeSelect ? salesVolumeSelect.textContent : ERRSTR
+    const itemPicBinary = imgURL || fetchImgBinary(imgURL)
     itemsInfo.push({
       itemPicUrl: imgURL || '',
+      itemPicArrayBuffer: itemPicBinary,
       itemName: name,
       itemLink: link,
       itemPrice: price,
@@ -82,5 +94,5 @@ const browse = async (page: Page) => {
       itemSalesVolume: salesVolume,
     })
   }
-  fetch('')
+  return { shopName: shopName, shopURL: url, itemsInfo: itemsInfo }
 }

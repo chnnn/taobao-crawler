@@ -15,6 +15,9 @@ A web crawler targeting Taobao(淘宝).
 5. copy the txt file to the `py` folder
 6. run `main.py`, the output will appear in the same folder
 
+# initial setup:
+1. Download [NodeJs](https://nodejs.org/)
+2. npm install
 
 # dependencies:
 - python 3.8+
