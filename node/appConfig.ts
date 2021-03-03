@@ -33,7 +33,12 @@ export const URLS = [
     // 'https://lamy.tmall.com/',
     'https://lianxinbg.tmall.com/'
 ]
-export const URL_EXTRA_PARAM = 'search.htm?'
+
+/** Navi to the category page legally */
+export const URL_EXTRA_PARAM = 'category.htm?'
+
+/** SelectAll(SELECTOR)[1].href gives the desired search result. The &search=y&orderType=hotsell_desc button  */
+export const SELECTOR_GOLDEN_BUTTON = '.J_TModule form > a'
 
 
 export const USER_AGENT_LIST = [

@@ -1,8 +1,8 @@
 import puppeteer from 'puppeteer-extra'
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 import { Page } from 'puppeteer'
-import { readCookiesFileToObj, autoScrollToBottom, scrollToSelector, parseURLs, fetchImgBinary, FetchImgBinaryData, fetchImgToFile, writeJSONArrToFile, sleep } from '@/src/helper'
-import { SELECTORS_PRIME, SELECTORS_SUB, COOKIES_FILE_ABS, URLS, URL_EXTRA_PARAM, SELECTORS_MISC, USER_AGENT_LIST, PROJ_ROOT_ABS } from '@/appConfig'
+import { readCookiesFileToObj, autoScrollToBottom, scrollToSelector, parseURLs, fetchImgToFile, writeJSONArrToFile, sleep } from '@/src/helper'
+import { SELECTOR_GOLDEN_BUTTON, SELECTORS_PRIME, SELECTORS_SUB, COOKIES_FILE_ABS, URLS, URL_EXTRA_PARAM, SELECTORS_MISC, USER_AGENT_LIST, PROJ_ROOT_ABS } from '@/appConfig'
 import fs from 'fs'
 import path from 'path'
 puppeteer.use(StealthPlugin())
@@ -31,34 +31,31 @@ export default async function puppetHandler() {
   await page.evaluate(() => {
     Object.defineProperty(navigator, 'webdriver', { get: () => false })
   })
-  // await preload(page)
+
   const preloadJsAbs = path.resolve(PROJ_ROOT_ABS, 'src' + path.sep + 'preload.js')
   const preloadFile = fs.readFileSync(preloadJsAbs, 'utf8');
-  console.log(preloadFile)
   await page.evaluateOnNewDocument(preloadFile);
+
   page.setUserAgent(USER_AGENT_LIST[1])
   await page.goto('https://login.taobao.com/', {
     waitUntil: 'networkidle2'
 
   })
   await sleep(30000)
-  // await cookiesSetup(page)
   const urlsToBrowse = parseURLs(URLS, URL_EXTRA_PARAM)
   const browseResultArr: BrowseResult[] = []
   for (const url of urlsToBrowse) {
     const itemsInfo = await browse(page, url)
     browseResultArr.push(itemsInfo)
   }
-  // writeCookieToFile(page)
   writeJSONArrToFile(browseResultArr, 'data', '.txt')
 
-  // TODO close browser
 }
-const preload = async (page: Page) => {
-  const preloadJsAbs = path.resolve(PROJ_ROOT_ABS, 'src/preload.js')
-  const preloadFile = fs.readFileSync(preloadJsAbs, 'utf8');
-  await page.evaluateOnNewDocument(preloadFile);
-}
+// const preload = async (page: Page) => {
+//   const preloadJsAbs = path.resolve(PROJ_ROOT_ABS, 'src/preload.js')
+//   const preloadFile = fs.readFileSync(preloadJsAbs, 'utf8');
+//   await page.evaluateOnNewDocument(preloadFile);
+// }
 
 const cookiesSetup = async (page: Page) => {
   const cookiesObj = readCookiesFileToObj(COOKIES_FILE_ABS)
@@ -68,8 +65,8 @@ const cookiesSetup = async (page: Page) => {
 }
 
 const browse = async (page: Page, url: string): Promise<BrowseResult> => {
+  /** GOTO category page */
   await page.goto(url, {
-    // waitUntil:'networkidle0'
     waitUntil: 'networkidle2'
   });
   /** avoid detection */
@@ -88,9 +85,21 @@ const browse = async (page: Page, url: string): Promise<BrowseResult> => {
   //   height: 1200,
   // });
 
-  await page.waitForNavigation({
-    waitUntil: 'load'
+  // await page.waitForNavigation({
+  //   waitUntil: 'load'
+  // })
+
+  const goldenButtonSelect = document.querySelectorAll(SELECTOR_GOLDEN_BUTTON)
+  if (!goldenButtonSelect || goldenButtonSelect[1] || goldenButtonSelect[1]['href']) {
+    throw new Error('goldenButton not found.')
+  }
+  const goldenButtonLink: string = goldenButtonSelect[1]['href']
+
+  /** the result page */
+  await page.goto(goldenButtonLink, {
+    waitUntil: 'networkidle2'
   })
+
 
   await autoScrollToBottom(page)
 
