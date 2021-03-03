@@ -1,7 +1,8 @@
 import puppeteer from 'puppeteer'
 import { readCookiesFileToObj, autoScrollToBottom, scrollToSelector, parseURLs, fetchImgBinary, FetchImgBinaryData, fetchImgToFile, writeJSONArrToFile, sleep } from '@/src/helper'
-import { SELECTORS_PRIME, SELECTORS_SUB, COOKIES_FILE_ABS, URLS, URL_EXTRA_PARAM, SELECTORS_MISC, USER_AGENT_LIST } from '@/appConfig'
+import { SELECTORS_PRIME, SELECTORS_SUB, COOKIES_FILE_ABS, URLS, URL_EXTRA_PARAM, SELECTORS_MISC, USER_AGENT_LIST, PROJ_ROOT_ABS } from '@/appConfig'
 import fs from 'fs'
+import path from 'path'
 
 type ItemInfo = {
   /** 180x180 pic */
@@ -47,7 +48,8 @@ export default async function puppetHandler() {
   // TODO close browser
 }
 const preload = async (page: Page) => {
-  const preloadFile = fs.readFileSync('./preload.js', 'utf8');
+  const preloadJsAbs = path.resolve(PROJ_ROOT_ABS, 'src/preload.js')
+  const preloadFile = fs.readFileSync(preloadJsAbs, 'utf8');
   await page.evaluateOnNewDocument(preloadFile);
 }
 
