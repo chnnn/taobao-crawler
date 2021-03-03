@@ -3,9 +3,11 @@ import puppeteer from 'puppeteer'
 import fs from 'fs'
 import fetch from 'node-fetch'
 import { sep } from 'path'
-import { DIR_OUT } from '@/appConfig'
+import { DIR_OUT_ABS } from '@/appConfig'
+import mkdirp from 'mkdirp'
+import rimraf from 'rimraf'
 
-const path: string = ''
+const dirOutAbs = DIR_OUT_ABS
 type Page = puppeteer.Page
 export type CookiesObj = {
     domain: string,
@@ -13,6 +15,7 @@ export type CookiesObj = {
         [key: string]: string
     }
 }
+// TODO
 export const readJSONFileToObj = (): CookiesObj => {
     return {
         domain: 'taobao.com',
@@ -52,7 +55,6 @@ export const scrollToSelector = async (page: Page, querySelector: string) => {
     await page.evaluate(async () => {
         document.querySelector(querySelector).scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'end' })
     })
-
 }
 
 /**
@@ -62,10 +64,26 @@ export const scrollToSelector = async (page: Page, querySelector: string) => {
 export const fetchImgToFile = async (url: string, fileName: string, suffix: string) => {
     const res = await fetch(url)
     const blobDataArrBuffer = new Uint16Array(await res.arrayBuffer())
-    fs.writeFileSync(DIR_OUT + sep + fileName + suffix, blobDataArrBuffer)
+    createDirIfNotExist(dirOutAbs)
+    fs.writeFileSync(dirOutAbs + sep + fileName + suffix, blobDataArrBuffer)
 }
 
-// TODO
-const createDirIfNotExist = (dir: string) => { }
+export const createDirIfNotExist = (dir: string) => {
+    if (!fs.existsSync(dir)) {
+        mkdirp.sync(dir)
+    }
+}
 
-const cleanDir = (dir: string) => { }
+/** rm -rf dirAbs */
+export const cleanDir = (dirAbs: string) => { 
+    if (!dirAbs.includes(sep)) {
+        console.error('Cautious. Wrong usage of cleanDir, must use ABS path.')
+    }
+    if (!fs.existsSync(dirAbs)) {
+        mkdirp.sync(dirAbs)
+        return
+    }
+    rimraf.sync(dirAbs)
+    mkdirp.sync(dirAbs)
+    return 
+ }

@@ -1,3 +1,4 @@
+import path from 'path'
 /** locating an item */
 export const SELECTORS_PRIME = {
     item: 'dl.item'
@@ -17,4 +18,6 @@ export const SELECTORS_SUB = {
     itemRating: 'dd.rates a',
 }
 
-export const DIR_OUT = 'out'
+export const PROJ_ROOT_ABS = path.resolve(__dirname, '.')
+
+export const DIR_OUT_ABS = path.resolve(PROJ_ROOT_ABS, 'out')
