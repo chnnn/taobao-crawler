@@ -6,6 +6,7 @@ import { sep } from 'path'
 import { DIR_OUT_ABS } from '@/appConfig'
 import mkdirp from 'mkdirp'
 import rimraf from 'rimraf'
+import { BrowseResult } from './puppeteerMain'
 
 const dirOutAbs = DIR_OUT_ABS
 type Page = puppeteer.Page
@@ -60,7 +61,7 @@ export const fetchImgToFile = async (url: string, fileName: string, suffix: stri
     fs.writeFileSync(dirOutAbs + sep + fileName + suffix, blobDataArrBuffer)
 }
 
-export type FetchImgBinaryData =  {url: string, arrBuffer: Uint16Array}
+export type FetchImgBinaryData = { url: string, arrBuffer: Uint16Array }
 export const fetchImgBinary = async (url: string): Promise<FetchImgBinaryData> => {
     const res = await fetch(url)
     const blobDataArrBuffer = new Uint16Array(await res.arrayBuffer())
@@ -99,3 +100,13 @@ export const parseURLs = (urls: string[], extraParam: string): string[] => {
     urls.forEach(e => parsedURLs.push(e + (extraParam || '')))
     return parsedURLs
 }
+
+export const writeJSONArrToFile = (objArrIn: BrowseResult[], fileName: string, suffix: string) => {
+    fs.writeFileSync(dirOutAbs + sep + fileName + suffix, JSON.stringify(objArrIn))
+}
+
+export const writeCookieToFile = (page: Page) => {
+    page.cookies()
+}
+
+export const sleep = (ms: number) => new Promise(res => setTimeout(res, ms));
