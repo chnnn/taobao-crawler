@@ -63,6 +63,16 @@ const browse = async (page: Page, url: string): Promise<BrowseResult> => {
     // waitUntil:'networkidle0'
     waitUntil: 'networkidle2'
   });
+  /** avoid detection */
+  page.on("request", r => {
+    if (
+      ["image", "stylesheet", "font", "script"].indexOf(r.resourceType()) !== -1
+    ) {
+      r.abort();
+    } else {
+      r.continue();
+    }
+  });
 
   // await page.setViewport({
   //   width: 1800,
