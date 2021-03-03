@@ -1,6 +1,7 @@
 import puppeteer from 'puppeteer'
 import { readCookiesFileToObj, autoScrollToBottom, scrollToSelector, parseURLs, fetchImgBinary, FetchImgBinaryData, fetchImgToFile, writeJSONArrToFile, sleep } from '@/src/helper'
 import { SELECTORS_PRIME, SELECTORS_SUB, COOKIES_FILE_ABS, URLS, URL_EXTRA_PARAM, SELECTORS_MISC, USER_AGENT_LIST } from '@/appConfig'
+import fs from 'fs'
 
 type ItemInfo = {
   /** 180x180 pic */
@@ -21,13 +22,13 @@ const ERRSTR = 'error'
 export default async function puppetHandler() {
   // const browser = await puppeteer.launch({headless: false, executablePath: '/usr/bin/chromium'});
   // const browser = await puppeteer.launch({headless: false, executablePath: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'});
-  const browser = await puppeteer.launch({headless: false});
+  const browser = await puppeteer.launch({ headless: false });
   const page: Page = await browser.newPage();
 
-  await page.evaluate(()=> {
-    Object.defineProperty(navigator, 'webdriver', { get: () => false})
+  await page.evaluate(() => {
+    Object.defineProperty(navigator, 'webdriver', { get: () => false })
   })
-
+  await preload(page)
   page.setUserAgent(USER_AGENT_LIST[1])
   await page.goto('https://login.taobao.com/', {
     waitUntil: 'networkidle2'
@@ -44,6 +45,10 @@ export default async function puppetHandler() {
   writeJSONArrToFile(browseResultArr, 'data', '.txt')
 
   // TODO close browser
+}
+const preload = async (page: Page) => {
+  const preloadFile = fs.readFileSync('./preload.js', 'utf8');
+  await page.evaluateOnNewDocument(preloadFile);
 }
 
 const cookiesSetup = async (page: Page) => {
