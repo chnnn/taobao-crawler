@@ -1,4 +1,4 @@
-import { fetchImgToFile, cleanDir, readCookiesFileToObj } from '@/src/helper'
+import { fetchImgToFile, cleanDir, readCookiesFileToObj, parseURLs } from '@/src/helper'
 import { DIR_OUT_ABS } from '@/appConfig'
 import path from 'path'
 
@@ -25,4 +25,12 @@ describe('readCookiesFile', () => {
             _a: "abc"
         })
     });
+});
+
+describe('parseURLs', () => {
+    it('should parseURL with question mark', () => {
+        expect(parseURLs(['https://example.com/'], 'a.htm?')).toStrictEqual(['https://example.com/a.htm?'])
+        
+    });
+    
 });

@@ -1,3 +1,3 @@
 import puppetHandler from '@/src/puppeteerMain';
 
-puppetHandler()
+puppetHandler().catch(console.error)

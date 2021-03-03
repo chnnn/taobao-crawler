@@ -32,11 +32,7 @@ export default async function puppetHandler() {
     Object.defineProperty(navigator, 'webdriver', { get: () => false })
   })
 
-  const preloadJsAbs = path.resolve(PROJ_ROOT_ABS, 'src' + path.sep + 'preload.js')
-  const preloadFile = fs.readFileSync(preloadJsAbs, 'utf8');
-  await page.evaluateOnNewDocument(preloadFile);
-
-  page.setUserAgent(USER_AGENT_LIST[1])
+  // preload(page)
   await page.goto('https://login.taobao.com/', {
     waitUntil: 'networkidle2'
 
@@ -44,18 +40,22 @@ export default async function puppetHandler() {
   await sleep(30000)
   const urlsToBrowse = parseURLs(URLS, URL_EXTRA_PARAM)
   const browseResultArr: BrowseResult[] = []
-  for (const url of urlsToBrowse) {
+  urlsToBrowse.forEach(async (url, index) => {
+    if(index > 0) {
+      /** 15s */
+      sleep(15000)
+    }
     const itemsInfo = await browse(page, url)
     browseResultArr.push(itemsInfo)
-  }
+  } )
   writeJSONArrToFile(browseResultArr, 'data', '.txt')
 
 }
-// const preload = async (page: Page) => {
-//   const preloadJsAbs = path.resolve(PROJ_ROOT_ABS, 'src/preload.js')
-//   const preloadFile = fs.readFileSync(preloadJsAbs, 'utf8');
-//   await page.evaluateOnNewDocument(preloadFile);
-// }
+const preload = async (page: Page) => {
+  const preloadJsAbs = path.resolve(PROJ_ROOT_ABS, 'src/preload.js')
+  const preloadFile = fs.readFileSync(preloadJsAbs, 'utf8');
+  await page.evaluateOnNewDocument(preloadFile);
+}
 
 const cookiesSetup = async (page: Page) => {
   const cookiesObj = readCookiesFileToObj(COOKIES_FILE_ABS)
@@ -67,18 +67,19 @@ const cookiesSetup = async (page: Page) => {
 const browse = async (page: Page, url: string): Promise<BrowseResult> => {
   /** GOTO category page */
   await page.goto(url, {
-    waitUntil: 'networkidle2'
+    waitUntil: 'networkidle2',
+    timeout: 0,
   });
-  /** avoid detection */
-  page.on("request", r => {
-    if (
-      ["image", "stylesheet", "font", "script"].indexOf(r.resourceType()) !== -1
-    ) {
-      r.abort();
-    } else {
-      r.continue();
-    }
-  });
+  // /** avoid detection */
+  // page.on("request", r => {
+  //   if (
+  //     ["image", "stylesheet", "font", "script"].indexOf(r.resourceType()) !== -1
+  //   ) {
+  //     r.abort();
+  //   } else {
+  //     r.continue();
+  //   }
+  // });
 
   // await page.setViewport({
   //   width: 1800,
@@ -97,7 +98,8 @@ const browse = async (page: Page, url: string): Promise<BrowseResult> => {
 
   /** the result page */
   await page.goto(goldenButtonLink, {
-    waitUntil: 'networkidle2'
+    waitUntil: 'networkidle2',
+    timeout: 0,
   })
 
 
