@@ -1,7 +1,7 @@
 // import puppeteer from 'puppeteer'
 import puppeteer from 'puppeteer-extra'
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
-import { Page } from 'puppeteer'
+import { Page, LaunchOptions, Browser } from 'puppeteer'
 import { readCookiesFileToObj, autoScrollToBottom, scrollToSelector, parseURLs, fetchImgToFile, writeJSONArrToFile, sleep } from '@/src/helper'
 import { SELECTOR_GOLDEN_BUTTON, SELECTORS_PRIME, SELECTORS_SUB, COOKIES_FILE_ABS, URLS, URL_EXTRA_PARAM, SELECTORS_MISC, USER_AGENT_LIST, PROJ_ROOT_ABS } from '@/appConfig'
 import fs from 'fs'
@@ -24,15 +24,16 @@ type ItemInfo = {
 export type BrowseResult = { shopName: string, shopURL: string, itemsInfo: ItemInfo[] }
 const ERRSTR = 'error'
 export default async function puppetHandler() {
-  // const browser = await puppeteer.launch({headless: false, executablePath: '/usr/bin/chromium'});
-  // const browser = await puppeteer.launch({headless: false, executablePath: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'});
-  const browser = await puppeteer.launch({ headless: false } as any);
-  const page: Page = await browser.newPage();
+  // const browser = await puppeteer.launch({headless: false, executablePath: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'} as LaunchOptions);
+  const browser = await puppeteer.launch({ headless: false } as LaunchOptions) as Browser;
+  const page: Page = await browser.newPage()
 
   // preload(page)
-  await page.goto('https://login.taobao.com/', {
-    waitUntil: 'networkidle2'
-
+  page.setCacheEnabled(false)
+  page.deleteCookie()
+  // await page.goto('https://login.taobao.com/', {
+  await page.goto('https://www.google.co.jp/', {
+    waitUntil: 'networkidle2',
   })
   await sleep(30000)
   const urlsToBrowse = parseURLs(URLS, URL_EXTRA_PARAM)

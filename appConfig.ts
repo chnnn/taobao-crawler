@@ -30,8 +30,9 @@ export const DIR_OUT_ABS = path.resolve(PROJ_ROOT_ABS, 'out')
 export const COOKIES_FILE_ABS = path.resolve(PROJ_ROOT_ABS, 'in' + path.sep + 'tgt_cookies.txt')
 
 export const URLS = [
-    'https://lamy.tmall.com/',
-    'https://lianxinbg.tmall.com/'
+    // 'https://lamy.tmall.com/',
+    // 'https://lianxinbg.tmall.com/'
+    'https://www.yahoo.co.jp/'
 ]
 
 /** Navi to the category page legally */
