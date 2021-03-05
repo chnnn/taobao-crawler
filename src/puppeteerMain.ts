@@ -112,6 +112,8 @@ const browse = async (page: Page, url: string): Promise<BrowseResult> => {
   const shopName = shopNameSelect ? shopNameSelect.textContent : ERRSTR
 
   await page.screenshot({ path: `${shopName}_Result.png` })
+  //TODO 1. run
+  //TODO 2. rebuild fingerprint. (pkg src, modify)
 
   const items = document.querySelectorAll(SELECTORS_PRIME.item)
   const itemsList: Element[] = []
