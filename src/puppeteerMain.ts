@@ -83,13 +83,17 @@ const browse = async (page: Page, url: string): Promise<BrowseResult> => {
   // await page.waitForNavigation({
   //   waitUntil: 'load'
   // })
+  const goldenButtonSelect = await page.evaluate(() => {
+    return document.querySelectorAll(SELECTOR_GOLDEN_BUTTON)
+  })
 
-  const goldenButtonSelect = document.querySelectorAll(SELECTOR_GOLDEN_BUTTON)
+  console.log('91:')
   if (!goldenButtonSelect || goldenButtonSelect[1] || goldenButtonSelect[1]['href']) {
     throw new Error('goldenButton not found.')
   }
   const goldenButtonLink: string = goldenButtonSelect[1]['href']
 
+  console.log('97:')
   /** the result page */
   await page.goto(goldenButtonLink, {
     waitUntil: 'networkidle2',
@@ -100,7 +104,11 @@ const browse = async (page: Page, url: string): Promise<BrowseResult> => {
   await autoScrollToBottom(page)
 
   await scrollToSelector(page, SELECTORS_PRIME.item)
-  const shopNameSelect = document.querySelector(SELECTORS_MISC.shopName)
+
+  const shopNameSelect = await page.evaluate(() => {
+    return document.querySelector(SELECTORS_MISC.shopName)
+  })
+
   const shopName = shopNameSelect ? shopNameSelect.textContent : ERRSTR
 
   await page.screenshot({ path: `${shopName}_Result.png` })

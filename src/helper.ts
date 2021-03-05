@@ -102,6 +102,7 @@ export const parseURLs = (urls: string[], extraParam: string): string[] => {
 }
 
 export const writeJSONArrToFile = (objArrIn: BrowseResult[], fileName: string, suffix: string) => {
+    createDirIfNotExist(dirOutAbs)
     fs.writeFileSync(dirOutAbs + sep + fileName + suffix, JSON.stringify(objArrIn))
 }
 
