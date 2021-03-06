@@ -55,13 +55,6 @@ export default async function puppetHandler() {
 //   await page.evaluateOnNewDocument(preloadFile);
 // }
 
-// const cookiesSetup = async (page: Page) => {
-//   const cookiesObj = readCookiesFileToObj(COOKIES_FILE_ABS)
-//   for (const [name, val] of Object.entries(cookiesObj.cookies)) {
-//     await page.setCookie({ name: name, value: val, domain: cookiesObj.domain })
-//   }
-// }
-
 const browse = async (page: Page, url: string): Promise<BrowseResult> => {
   try {
     /** GOTO category page */
@@ -88,7 +81,7 @@ const browse = async (page: Page, url: string): Promise<BrowseResult> => {
   })
 
   console.log('91:')
-  if (!goldenButtonSelect || goldenButtonSelect[1] || goldenButtonSelect[1]['href']) {
+  if (!goldenButtonSelect || !goldenButtonSelect[1] || !goldenButtonSelect[1]['href']) {
     throw new Error('goldenButton not found.')
   }
   const goldenButtonLink: string = goldenButtonSelect[1]['href']
