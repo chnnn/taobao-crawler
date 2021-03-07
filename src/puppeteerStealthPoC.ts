@@ -51,7 +51,6 @@ const browse = async (page: Page): Promise<any> => {
       searchBox['value'] = shopName
     }
   }, shopName)
-
   try {
     await page.click('input[type="submit"]')
     await page.waitForNavigation({ waitUntil: 'networkidle2' })
@@ -60,6 +59,7 @@ const browse = async (page: Page): Promise<any> => {
     return
   }
 
+  /** enter the main page of the shop */
   await page.$$eval('.shop a.shopname', (eList, shopName) => {
     const a = eList.find(e => e.textContent.trim() === shopName) as any
     try {
