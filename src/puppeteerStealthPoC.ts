@@ -1,7 +1,7 @@
 /**
  * 1. Await user login.
- * 2. After 40s, search for the target shopName, and open a tab to the main page of the shop.
- * The shopName must be the exact match. For example, 'IKEA宜家家居官方旗舰店'
+ * 2. After 40s, search for the target shopName, and open the tabs to the main page of the shops.
+ * The shopName must be the exact match, case sensitive. For example, 'IKEA宜家家居官方旗舰店'
  */
 import { Browser, LaunchOptions, Page } from 'puppeteer'
 import puppeteer from 'puppeteer-extra'
@@ -17,9 +17,6 @@ export default async function puppetHandler() {
   // const browser = await puppeteer.launch({headless: false, executablePath: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'} as LaunchOptions);
   const browser = await puppeteer.launch({ headless: false } as LaunchOptions) as Browser;
   const page: Page = await browser.newPage()
-
-  // page.setCacheEnabled(false)
-  // page.deleteCookie()
   await page.goto('https://www.taobao.com/', {
     waitUntil: 'networkidle2',
   })

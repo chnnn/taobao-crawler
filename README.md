@@ -1,34 +1,30 @@
-# taobao-crawler
+# Taobao-crawler
 A web crawler targeting Taobao(淘宝). 
 
-# features, or what it does:
-1. Fetch items-info from specified shops.
-2. Parse the result, group by "shop", order by "selling volume".
-3. Write the result to file.
+# Definition of Nouns
++ **items category page**: the "item by sales" page from each shop.
+  ![item category page](./img/example_item_by_sales_page.jpg)
 
-# usage:
-1. open and login to taobao.com
-2. open the javascript console window (press F12 in chrome)
-3. copy the content of `node/cookieExtractor.js` to the window, press Enter key.
-4. a txt file shall be downloaded. Allow the download if any user confirmation is necessary.
+# Features:
+1. tools/theDataExtractor: Extract the info of top 15 items, parse and auto download as csv File. And auto download their pictures.
+  - copy the code to the console of an opened [items category page](#Definition of Nouns)
+  - allow the files to be downloaded if asked. 
 
-5. copy the txt file to the `py` folder
-6. run `main.py`, the output will appear in the same folder
+2. src/index.ts: Open home-pages of shops in new browser tabs. You can then maually goes to any [items category page](#Definition of Nouns), then use theDataExtractor.
 
-# initial setup:
-1. Download [NodeJs](https://nodejs.org/)
+# Initial Setup:
+1. Download and install [NodeJs](https://nodejs.org/)
 2. npm install
 
-# dependencies:
-- python 3.8+
-- pip install requests
-- pip install pyppeteer
-# bootstrap
-python3 -m venv .env
-## macOS && Linux
-source .env/bin/active
-## Windows
-.\env\Scripts\activate
+# Usage:
+(modify the "shopNames" parameter in tools/theDataExtractor.js)
+1. npm run dev.
+2. When the Taobao main page loads, login and wait.
+3. when shop tab is opened, find any [items category page](#Definition of Nouns) and open the console of the browser tab.
+4. copy the content of `tools/theDataExtractor.js` into the console and hit the Enter key.
+5. check the files dowloaded.
 
-# package list
-browser-cookie3 0.12.0
+# Result Example
+  + ![item data in csv](./img/example_csv.jpg)
+  + ![item data and thumbnails](./img/example_dowloaded_data.jpg)
+
