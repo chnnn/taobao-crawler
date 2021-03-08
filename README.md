@@ -27,9 +27,9 @@ Open home-pages of shops in new browser tabs. You can then maually goes to any [
   2. When the Taobao main page loads, login and wait.
 
 # Result Example
-+ csv
++ csv content:
   ![item data in csv](./img/example_csv.jpg)
   
-+ data downloaded
++ data downloaded(csv + thumbnails):
   ![item data and thumbnails](./img/example_dowloaded_data.jpg)
 
