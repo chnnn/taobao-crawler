@@ -7,8 +7,8 @@ A script for extracting items info from Taobao-TMALL shops(淘宝天猫旗舰店
 
 # Features:
 1. [tools/theDataExtractor.js](./tools/theDataExtractor.js): Extract the info of the top 15 items, then parse and download the following files:
-  1. a csv File, contains all text info.
-  2. item thumbnails.
+  + a csv File, contains all text info.
+  + item thumbnails.
 
 2. [src/index.ts](./src/index.ts):
   1. open tabs, to the homepage of the shops, 
@@ -21,12 +21,12 @@ Open home-pages of shops in new browser tabs. You can then maually goes to any [
    ![basic usage](./img/example_usage.png)
 
 ## Auto Open TMALL Shops by "shopName" in Browser Tabs
-(modify the "shopNames" parameter in [tools/puppeteerStealthPoC.ts](./tools/puppeteerStealthPoC.ts))
-After installing node.js and npm install intially:
-1. npm run dev.
-2. When the Taobao main page loads, login and wait.
++ (modify the "shopNames" parameter in [tools/puppeteerStealthPoC.ts](./tools/puppeteerStealthPoC.ts))
++ After installing node.js and npm install intially:
+  1. npm run dev.
+  2. When the Taobao main page loads, login and wait.
 
 # Result Example
-  + ![item data in csv](./img/example_csv.jpg)
-  + ![item data and thumbnails](./img/example_dowloaded_data.jpg)
+  ![item data in csv](./img/example_csv.jpg)
+  ![item data and thumbnails](./img/example_dowloaded_data.jpg)
 
