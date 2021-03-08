@@ -1,5 +1,5 @@
 # Taobao-TMALL Items-Data Extractor
-A web crawler targeting Taobao(淘宝). 
+A script for extracting items info from Taobao-TMALL shops(淘宝天猫旗舰店). 
 
 # Definition of Nouns
 + **items category page**: the "item by sales" page from each shop. Similar to the following page:
@@ -7,7 +7,7 @@ A web crawler targeting Taobao(淘宝).
 
 # Features:
 1. `tools/theDataExtractor`: Extract the info of the top 15 items, then parse and download the following files:
-  1. an csv File, contains all text info.
+  1. a csv File, contains all text info.
   2. item thumbnails.
 
 2. `src/index.ts`:
