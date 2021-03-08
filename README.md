@@ -17,10 +17,10 @@ Open home-pages of shops in new browser tabs. You can then maually goes to any [
 
 # Usage:
 ## Extract Items Infomation From TMALL shops
-   + paste the [tools/theDataExtractor.js](./tools/theDataExtractor.js) in the console of an **item category page** of a **TMALL shop**, as showed here, then hit Enter:
+   + paste the [tools/theDataExtractor.js](./tools/theDataExtractor.js) in the console of an **item category page** of a **TMALL shop**, as shown here, then hit the Enter key to run:
    ![basic usage](./img/example_usage.png)
 
-## Auto Open TMALL Shops by "shopName" in Browser Tabs
+## (Alternative) Auto Open TMALL Shops by "shopName" in Browser Tabs
 + (modify the "shopNames" parameter in [tools/puppeteerStealthPoC.ts](./tools/puppeteerStealthPoC.ts))
 + After installing node.js and npm install intially:
   1. npm run dev.
