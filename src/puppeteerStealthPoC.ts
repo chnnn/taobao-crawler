@@ -1,45 +1,43 @@
-// import puppeteer from 'puppeteer'
-import { SELECTORS_MISC, SELECTORS_PRIME, SELECTORS_SUB, SELECTOR_GOLDEN_BUTTON, URLS, URL_EXTRA_PARAM } from '@/appConfig'
-import { autoScrollToBottom, fetchImgToFile, parseURLs, scrollToSelector, sleep, writeJSONArrToFile } from '@/src/helper'
+/**
+ * 1. Await user login.
+ * 2. After 40s, search for the target shopName, and open a tab to the main page of the shop.
+ * The shopName must be the exact match. For example, 'IKEA宜家家居官方旗舰店'
+ */
 import { Browser, LaunchOptions, Page } from 'puppeteer'
 import puppeteer from 'puppeteer-extra'
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 puppeteer.use(StealthPlugin())
 
-type ItemInfo = {
-  /** 180x180 pic */
-  itemPicUrl: string
-  // itemPicArrayBuffer: FetchImgBinaryData | null,
-  itemName: string
-  itemLink: string
-  /** price in CNY '8.00' */
-  itemPrice: string
-  /** '总销量: 1' */
-  itemSalesVolume: string
-  /** '评价: 2' */
-  itemRating: string
-}
-export type BrowseResult = { shopName: string, shopURL: string, itemsInfo: ItemInfo[] }
-const ERRSTR = 'error'
 export default async function puppetHandler() {
+  const shopNames: string[] = [
+    'ikea宜家家居官方旗舰店',
+    '得力官方旗舰店',
+  ]
+
   // const browser = await puppeteer.launch({headless: false, executablePath: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'} as LaunchOptions);
   const browser = await puppeteer.launch({ headless: false } as LaunchOptions) as Browser;
   const page: Page = await browser.newPage()
 
-  // preload(page)
-  page.setCacheEnabled(false)
-  page.deleteCookie()
+  // page.setCacheEnabled(false)
+  // page.deleteCookie()
   await page.goto('https://www.taobao.com/', {
     waitUntil: 'networkidle2',
   })
-  await sleep(40000)
-  const urlsToBrowse = parseURLs(URLS, URL_EXTRA_PARAM)
-  const browseResultArr: BrowseResult[] = []
-  const itemsInfo = await browse(page)
+  await sleep(40)
+  shopNames.forEach(async (shopName, index) => {
+    if (index > 0) {
+      await sleep(10)
+    }
+    await browseShopHome(browser, shopName)
+  })
 }
 
-const browse = async (page: Page): Promise<any> => {
-  const shopName = '得力官方旗舰店'
+const browseShopHome = async (browser: Browser, shopNameToSearch: string): Promise<any> => {
+  const page: Page = await browser.newPage()
+  await page.goto('https://www.taobao.com/', {
+    waitUntil: 'networkidle2',
+  })
+  const shopName = shopNameToSearch || ''
   /**
    * await page.$eval('input[type="text"]', (e, shopName) =>  e['value'] = shopName , shopName)
    */
@@ -52,20 +50,25 @@ const browse = async (page: Page): Promise<any> => {
   }, shopName)
   try {
     await page.click('input[type="submit"]')
-    await page.waitForNavigation({ waitUntil: 'networkidle2' })
+    await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 0 })
   } catch (err) {
     console.warn('page.click: button does not exist')
     return
   }
 
+  await sleep(1)
+
   /** enter the main page of the shop */
   await page.$$eval('.shop a.shopname', (eList, shopName) => {
     const a = eList.find(e => e.textContent.trim() === shopName) as any
     try {
+      /** pop-up, no need to await navigation */
       a.click()
     } catch (err) {
       console.warn('theShowHandler does not exist')
     }
   }, shopName)
-  await page.waitForNavigation({ waitUntil: 'networkidle2' })
+  await page.close()
 }
+
+const sleep = (seconds: number) => new Promise(res => setTimeout(res, seconds * 1000));

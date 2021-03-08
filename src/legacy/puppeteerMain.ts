@@ -2,8 +2,8 @@
 import puppeteer from 'puppeteer-extra'
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 import { Page, LaunchOptions, Browser } from 'puppeteer'
-import { readCookiesFileToObj, autoScrollToBottom, scrollToSelector, parseURLs, fetchImgToFile, writeJSONArrToFile, sleep } from '@/src/helper'
-import { SELECTOR_GOLDEN_BUTTON, SELECTORS_PRIME, SELECTORS_SUB, COOKIES_FILE_ABS, URLS, URL_EXTRA_PARAM, SELECTORS_MISC, USER_AGENT_LIST, PROJ_ROOT_ABS } from '@/appConfig'
+import { readCookiesFileToObj, autoScrollToBottom, scrollToSelector, parseURLs, fetchImgToFile, writeJSONArrToFile, sleep } from '@/src/legacy/helper'
+import { SELECTOR_GOLDEN_BUTTON, SELECTORS_PRIME, SELECTORS_SUB, COOKIES_FILE_ABS, URLS, URL_EXTRA_PARAM, SELECTORS_MISC, USER_AGENT_LIST, PROJ_ROOT_ABS } from '@/src/legacy/appConfig'
 import fs from 'fs'
 import path from 'path'
 puppeteer.use(StealthPlugin())

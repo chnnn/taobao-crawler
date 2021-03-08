@@ -35,7 +35,7 @@ await (async () => {
         const shopName = shopNameSelect ? shopNameSelect.textContent : ERRSTR
 
         /** top 10 */
-        const targetItems = itemsList.slice(0, 10)
+        const targetItems = itemsList.slice(0, limit)
 
         const itemsInfo = []
         const promisesList = []
