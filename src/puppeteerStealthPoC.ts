@@ -30,7 +30,6 @@ export default async function puppetHandler() {
   page.setCacheEnabled(false)
   page.deleteCookie()
   await page.goto('https://www.taobao.com/', {
-    // await page.goto('https://www.google.com/', {
     waitUntil: 'networkidle2',
   })
   await sleep(40000)
