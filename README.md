@@ -17,7 +17,7 @@ Open home-pages of shops in new browser tabs. You can then maually goes to any [
 
 # Usage:
 ## Extract Items Infomation From TMALL shops
-   + paste the [tools/theDataExtractor.js](./tools/theDataExtractor.js) in the console of a **item category page** of a **TMALL shop**, as showed here, then hit Enter:
+   + paste the [tools/theDataExtractor.js](./tools/theDataExtractor.js) in the console of an **item category page** of a **TMALL shop**, as showed here, then hit Enter:
    ![basic usage](./img/example_usage.png)
 
 ## Auto Open TMALL Shops by "shopName" in Browser Tabs
